@@ -1,0 +1,546 @@
+Started GET "/" for ::1 at 2023-07-04 09:55:55 -0400
+  
+ActiveRecord::ConnectionNotEstablished (connection to server on socket "/tmp/.s.PGSQL.5432" failed: fe_sendauth: no password supplied
+):
+  
+activerecord (7.0.6) lib/active_record/connection_adapters/postgresql_adapter.rb:87:in `rescue in new_client'
+activerecord (7.0.6) lib/active_record/connection_adapters/postgresql_adapter.rb:77:in `new_client'
+activerecord (7.0.6) lib/active_record/connection_adapters/postgresql_adapter.rb:37:in `postgresql_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `public_send'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `new_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:700:in `checkout_new_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:679:in `try_to_checkout_new_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:640:in `acquire_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:341:in `checkout'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:181:in `connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_handler.rb:211:in `retrieve_connection'
+activerecord (7.0.6) lib/active_record/connection_handling.rb:313:in `retrieve_connection'
+activerecord (7.0.6) lib/active_record/connection_handling.rb:280:in `connection'
+activerecord (7.0.6) lib/active_record/migration.rb:613:in `connection'
+activerecord (7.0.6) lib/active_record/migration.rb:608:in `build_watcher'
+activerecord (7.0.6) lib/active_record/migration.rb:590:in `block in call'
+activerecord (7.0.6) lib/active_record/migration.rb:589:in `synchronize'
+activerecord (7.0.6) lib/active_record/migration.rb:589:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.6) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.6) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+web-console (4.2.0) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.0) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.0) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.0) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/show_exceptions.rb:29:in `call'
+railties (7.0.6) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.6) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.6) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.6) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.6) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.6) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.7) lib/rack/method_override.rb:24:in `call'
+rack (2.2.7) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.6) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.6) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.6) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.7) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/host_authorization.rb:137:in `call'
+railties (7.0.6) lib/rails/engine.rb:530:in `call'
+puma (5.6.6) lib/puma/configuration.rb:252:in `call'
+puma (5.6.6) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.6) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.6) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.6) lib/puma/server.rb:443:in `process_client'
+puma (5.6.6) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+  [1m[35m (248.2ms)[0m  [1m[35mCREATE DATABASE "pig_latin_wikipedia_development" ENCODING = 'utf8'[0m
+  [1m[35m (110.0ms)[0m  [1m[35mCREATE DATABASE "pig_latin_wikipedia_test" ENCODING = 'utf8'[0m
+Started GET "/" for ::1 at 2023-07-04 10:07:45 -0400
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/dev/.rvm/gems/ruby-3.1.2/gems/railties-7.0.6/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/dev/.rvm/gems/ruby-3.1.2/gems/railties-7.0.6/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.4ms | Allocations: 529)
+Completed 200 OK in 16ms (Views: 3.8ms | ActiveRecord: 0.0ms | Allocations: 4929)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:09:50 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:10:01 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 10)
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.0ms | Allocations: 878)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:21:14 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:21:27 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 4ms (Allocations: 2526)
+
+
+  
+NameError (uninitialized constant ArticlesController::Wikipedia
+
+    client = Wikipedia::Client.new
+             ^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:15:in `fetch_article_content'
+app/controllers/articles_controller.rb:7:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:21:47 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:37 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:38 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:38 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:39 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:39 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:39 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:39 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:40 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:42:43 -0400
+  
+LoadError (cannot load such file -- mediawiki_api):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:44:02 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:44:03 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:44:04 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:44:04 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:44:04 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:44:04 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:44:05 -0400
+  
+LoadError (cannot load such file -- wikipedia):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 10:50:18 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 3ms (Allocations: 2417)
+
+
+  
+NameError (uninitialized constant ArticlesController::Wikipedia
+
+    config_en = Wikipedia::Configuration.new(domain: 'en.wikipedia.org')
+                ^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:6:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:49:41 -0400
+  
+LoadError (cannot load such file -- wikipedia/client):
+  
+app/controllers/articles_controller.rb:1:in `<main>'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:51:51 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 0.0ms | Allocations: 3800)
+
+
+  
+NameError (uninitialized constant ArticlesController::MediawikiApi
+
+    client = MediawikiApi::Client.new('https://en.wikipedia.org/w/api.php')
+             ^^^^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:15:in `fetch_article_content'
+app/controllers/articles_controller.rb:7:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:51:52 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.0ms | Allocations: 2527)
+
+
+  
+NameError (uninitialized constant ArticlesController::MediawikiApi
+
+    client = MediawikiApi::Client.new('https://en.wikipedia.org/w/api.php')
+             ^^^^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:15:in `fetch_article_content'
+app/controllers/articles_controller.rb:7:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:52:33 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 1315)
+
+
+  
+NoMethodError (undefined method `get_article' for #<Wikipedia::Client:0x00000001085d2538 @configuration=#<Wikipedia::Configuration:0x00000001085d2498 @protocol="https", @domain="en.wikipedia.org", @path="w/api.php", @user_agent="wikipedia-client/1.7 (https://github.com/kenpratt/wikipedia-client)", @headers={}>, @follow_redirects=true>
+
+    page = client.get_article(title)
+                 ^^^^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:16:in `fetch_article_content'
+app/controllers/articles_controller.rb:7:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:53:49 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 1267)
+
+
+  
+NoMethodError (undefined method `get_page' for #<Wikipedia::Client:0x000000010879b608 @configuration=#<Wikipedia::Configuration:0x000000010879b5b8 @protocol="https", @domain="en.wikipedia.org", @path="w/api.php", @user_agent="wikipedia-client/1.7 (https://github.com/kenpratt/wikipedia-client)", @headers={}>, @follow_redirects=true>
+
+    page = client.get_page(title)
+                 ^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:16:in `fetch_article_content'
+app/controllers/articles_controller.rb:7:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:53:50 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 1226)
+
+
+  
+NoMethodError (undefined method `get_page' for #<Wikipedia::Client:0x000000010880b868 @configuration=#<Wikipedia::Configuration:0x000000010880b840 @protocol="https", @domain="en.wikipedia.org", @path="w/api.php", @user_agent="wikipedia-client/1.7 (https://github.com/kenpratt/wikipedia-client)", @headers={}>, @follow_redirects=true>
+
+    page = client.get_page(title)
+                 ^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:16:in `fetch_article_content'
+app/controllers/articles_controller.rb:7:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:54:43 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:54:45 -0400
+Completed 500 Internal Server Error in 3024ms (ActiveRecord: 0.0ms | Allocations: 14068)
+
+
+  
+NoMethodError (undefined method `new' for PigLatinTranslator:Module
+
+    translator = PigLatinTranslator.new
+                                   ^^^^):
+  
+app/controllers/articles_controller.rb:20:in `translate_to_pig_latin'
+app/controllers/articles_controller.rb:8:in `translate'
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 797ms (ActiveRecord: 0.0ms | Allocations: 3914)
+
+
+  
+NoMethodError (undefined method `new' for PigLatinTranslator:Module
+
+    translator = PigLatinTranslator.new
+                                   ^^^^):
+  
+app/controllers/articles_controller.rb:20:in `translate_to_pig_latin'
+app/controllers/articles_controller.rb:8:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:55:26 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.1ms | Allocations: 9)
+Completed 200 OK in 945ms (Views: 2.4ms | ActiveRecord: 0.0ms | Allocations: 3181)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 11:56:25 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 7)
+Completed 200 OK in 985ms (Views: 1.0ms | ActiveRecord: 0.0ms | Allocations: 2903)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 12:01:18 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 13)
+Completed 200 OK in 1064ms (Views: 4.4ms | ActiveRecord: 0.0ms | Allocations: 8570)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 12:15:57 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 1089ms (Allocations: 3916)
+
+
+  
+NoMethodError (undefined method `new' for PigLatinTranslator:Module
+
+    translator = PigLatinTranslator.new
+                                   ^^^^):
+  
+app/controllers/articles_controller.rb:17:in `translate_to_pig_latin'
+app/controllers/articles_controller.rb:5:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 12:46:00 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 828ms (ActiveRecord: 0.0ms | Allocations: 9736)
+
+
+  
+NameError (uninitialized constant PigLatinTranslator::Translator
+
+    translator = PigLatinTranslator::Translator.new
+                                   ^^^^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:17:in `translate_to_pig_latin'
+app/controllers/articles_controller.rb:5:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:48:15 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 13ms (Allocations: 1306)
+
+
+  
+SocketError (Failed to open TCP connection to en.wikipedia.org:443 (getaddrinfo: nodename nor servname provided, or not known)):
+  
+app/controllers/articles_controller.rb:12:in `fetch_article_content'
+app/controllers/articles_controller.rb:4:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:48:48 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 13ms (Allocations: 1208)
+
+
+  
+SocketError (Failed to open TCP connection to en.wikipedia.org:443 (getaddrinfo: nodename nor servname provided, or not known)):
+  
+app/controllers/articles_controller.rb:12:in `fetch_article_content'
+app/controllers/articles_controller.rb:4:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:50:13 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+Completed 500 Internal Server Error in 1381ms (ActiveRecord: 0.0ms | Allocations: 9737)
+
+
+  
+NameError (uninitialized constant PigLatinTranslator::Translator
+
+    translator = PigLatinTranslator::Translator.new
+                                   ^^^^^^^^^^^^):
+  
+app/controllers/articles_controller.rb:17:in `translate_to_pig_latin'
+app/controllers/articles_controller.rb:5:in `translate'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:55:59 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 10)
+Completed 200 OK in 1356ms (Views: 2.4ms | ActiveRecord: 0.0ms | Allocations: 25144)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:56:20 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 8)
+Completed 200 OK in 858ms (Views: 1.1ms | ActiveRecord: 0.0ms | Allocations: 24907)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:56:36 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 8)
+Completed 200 OK in 665ms (Views: 0.9ms | ActiveRecord: 0.0ms | Allocations: 37053)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:56:47 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 8)
+Completed 200 OK in 842ms (Views: 1.1ms | ActiveRecord: 0.0ms | Allocations: 24904)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:56:50 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 7)
+Completed 200 OK in 968ms (Views: 0.5ms | ActiveRecord: 0.0ms | Allocations: 24664)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 14:56:52 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 7)
+Completed 200 OK in 607ms (Views: 0.5ms | ActiveRecord: 0.0ms | Allocations: 24656)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-04 15:07:14 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 7)
+Completed 200 OK in 1489ms (Views: 0.4ms | Allocations: 24650)
+
+
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-05 10:18:28 -0400
+  
+ActiveRecord::ConnectionNotEstablished (connection to server on socket "/tmp/.s.PGSQL.5432" failed: fe_sendauth: no password supplied
+):
+  
+activerecord (7.0.6) lib/active_record/connection_adapters/postgresql_adapter.rb:87:in `rescue in new_client'
+activerecord (7.0.6) lib/active_record/connection_adapters/postgresql_adapter.rb:77:in `new_client'
+activerecord (7.0.6) lib/active_record/connection_adapters/postgresql_adapter.rb:37:in `postgresql_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `public_send'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `new_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:700:in `checkout_new_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:679:in `try_to_checkout_new_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:640:in `acquire_connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:341:in `checkout'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_pool.rb:181:in `connection'
+activerecord (7.0.6) lib/active_record/connection_adapters/abstract/connection_handler.rb:211:in `retrieve_connection'
+activerecord (7.0.6) lib/active_record/connection_handling.rb:313:in `retrieve_connection'
+activerecord (7.0.6) lib/active_record/connection_handling.rb:280:in `connection'
+activerecord (7.0.6) lib/active_record/migration.rb:613:in `connection'
+activerecord (7.0.6) lib/active_record/migration.rb:608:in `build_watcher'
+activerecord (7.0.6) lib/active_record/migration.rb:590:in `block in call'
+activerecord (7.0.6) lib/active_record/migration.rb:589:in `synchronize'
+activerecord (7.0.6) lib/active_record/migration.rb:589:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (7.0.6) lib/active_support/callbacks.rb:99:in `run_callbacks'
+actionpack (7.0.6) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+web-console (4.2.0) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.2.0) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.2.0) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.2.0) lib/web_console/middleware.rb:17:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/show_exceptions.rb:29:in `call'
+railties (7.0.6) lib/rails/rack/logger.rb:40:in `call_app'
+railties (7.0.6) lib/rails/rack/logger.rb:25:in `block in call'
+activesupport (7.0.6) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+activesupport (7.0.6) lib/active_support/tagged_logging.rb:37:in `tagged'
+activesupport (7.0.6) lib/active_support/tagged_logging.rb:99:in `tagged'
+railties (7.0.6) lib/rails/rack/logger.rb:25:in `call'
+sprockets-rails (3.4.2) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+rack (2.2.7) lib/rack/method_override.rb:24:in `call'
+rack (2.2.7) lib/rack/runtime.rb:22:in `call'
+activesupport (7.0.6) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/server_timing.rb:61:in `block in call'
+actionpack (7.0.6) lib/action_dispatch/middleware/server_timing.rb:26:in `collect_events'
+actionpack (7.0.6) lib/action_dispatch/middleware/server_timing.rb:60:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/static.rb:23:in `call'
+rack (2.2.7) lib/rack/sendfile.rb:110:in `call'
+actionpack (7.0.6) lib/action_dispatch/middleware/host_authorization.rb:137:in `call'
+railties (7.0.6) lib/rails/engine.rb:530:in `call'
+puma (5.6.6) lib/puma/configuration.rb:252:in `call'
+puma (5.6.6) lib/puma/request.rb:77:in `block in handle_request'
+puma (5.6.6) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
+puma (5.6.6) lib/puma/request.rb:76:in `handle_request'
+puma (5.6.6) lib/puma/server.rb:443:in `process_client'
+puma (5.6.6) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+Started GET "/wiki/Pig_Latin" for ::1 at 2023-07-05 10:24:32 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Pig_Latin"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 13)
+Completed 200 OK in 1031ms (Views: 3.3ms | ActiveRecord: 0.0ms | Allocations: 30589)
+
+
+Started GET "/wiki/Client" for ::1 at 2023-07-05 10:24:58 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Client"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 8)
+Completed 200 OK in 943ms (Views: 0.4ms | ActiveRecord: 0.0ms | Allocations: 4446)
+
+
+Started GET "/wiki/Clientfcdfdevdvevevvefvefvefgvev" for ::1 at 2023-07-05 10:25:41 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"Clientfcdfdevdvevevvefvefvefgvev"}
+  Rendering text template
+  Rendered text template (Duration: 0.1ms | Allocations: 8)
+Completed 404 Not Found in 684ms (Views: 0.6ms | ActiveRecord: 0.0ms | Allocations: 2027)
+
+
+Started GET "/wiki/client" for ::1 at 2023-07-05 10:27:46 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"client"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 7)
+Completed 200 OK in 737ms (Views: 0.9ms | ActiveRecord: 0.0ms | Allocations: 5199)
+
+
+Started GET "/wiki/client" for ::1 at 2023-07-05 13:50:25 -0400
+Processing by ArticlesController#translate as HTML
+  Parameters: {"article_title"=>"client"}
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | Allocations: 13)
+Completed 200 OK in 2861ms (Views: 5.1ms | ActiveRecord: 0.0ms | Allocations: 10836)
+
+

@@ -1,0 +1,705 @@
+  [1m[35m (12.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(4929281822280498165)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateOriginalStrings (20230704195916)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.8ms)[0m  [1m[35mCREATE TABLE "original_strings" ("id" bigserial primary key, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20230704195916"]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2023-07-05 12:39:26.407570"], ["updated_at", "2023-07-05 12:39:26.407570"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(4929281822280498165)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 12:42:49.165460', '2023-07-05 12:42:49.165460'), (298486374, 'MyString', '2023-07-05 12:42:49.165460', '2023-07-05 12:42:49.165460')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (53.9ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.3ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:42:49.466222"], ["updated_at", "2023-07-05 12:42:49.466222"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 14ms (Views: 0.4ms | ActiveRecord: 0.6ms | Allocations: 6195)
+  [1m[36mOriginalString Load (0.2ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification
+-----------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:42:49.474698"], ["updated_at", "2023-07-05 12:42:49.474698"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 534)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 12:43:07.495771', '2023-07-05 12:43:07.495771'), (298486374, 'MyString', '2023-07-05 12:43:07.495771', '2023-07-05 12:43:07.495771')[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.2ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.3ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:43:07.597945"], ["updated_at", "2023-07-05 12:43:07.597945"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 10ms (Views: 0.3ms | ActiveRecord: 0.5ms | Allocations: 5761)
+  [1m[36mOriginalString Load (0.1ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification
+-----------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:43:07.604206"], ["updated_at", "2023-07-05 12:43:07.604206"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.3ms | Allocations: 534)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 12:43:43.479216', '2023-07-05 12:43:43.479216'), (298486374, 'MyString', '2023-07-05 12:43:43.479216', '2023-07-05 12:43:43.479216')[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.3ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification
+-----------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:43:43.581709"], ["updated_at", "2023-07-05 12:43:43.581709"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 10ms (Views: 0.3ms | ActiveRecord: 0.4ms | Allocations: 5761)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:43:43.593066"], ["updated_at", "2023-07-05 12:43:43.593066"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.3ms | Allocations: 426)
+  [1m[36mOriginalString Load (0.2ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 12:55:27.514072', '2023-07-05 12:55:27.514072'), (298486374, 'MyString', '2023-07-05 12:55:27.514072', '2023-07-05 12:55:27.514072')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.9ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.3ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:55:27.617517"], ["updated_at", "2023-07-05 12:55:27.617517"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 9ms (Views: 0.3ms | ActiveRecord: 0.4ms | Allocations: 5763)
+  [1m[36mOriginalString Load (0.1ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification
+-----------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 12:58:49.137045', '2023-07-05 12:58:49.137045'), (298486374, 'MyString', '2023-07-05 12:58:49.137045', '2023-07-05 12:58:49.137045')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.2ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.7ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 12:58:49.264774"], ["updated_at", "2023-07-05 12:58:49.264774"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 31ms (Views: 0.5ms | ActiveRecord: 1.3ms | Allocations: 5767)
+  [1m[36mOriginalString Load (0.2ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification_for_JSON_requests
+-----------------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------
+EncoderControllerTest: test_does_not_skip_authenticity_token_verification_for_non-JSON_requests
+-----------------------------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 13:02:13.289761', '2023-07-05 13:02:13.289761'), (298486374, 'MyString', '2023-07-05 13:02:13.289761', '2023-07-05 13:02:13.289761')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.4ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.3ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:02:13.408270"], ["updated_at", "2023-07-05 13:02:13.408270"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 12ms (Views: 0.3ms | ActiveRecord: 0.5ms | Allocations: 5766)
+  [1m[36mOriginalString Load (0.2ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------
+EncoderControllerTest: test_does_not_skip_authenticity_token_verification_for_non-JSON_requests
+-----------------------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:02:13.416388"], ["updated_at", "2023-07-05 13:02:13.416388"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 573)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification_for_JSON_requests
+-----------------------------------------------------------------------------------
+Processing by EncoderController#encode as JSON
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:02:13.420102"], ["updated_at", "2023-07-05 13:02:13.420102"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 456)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 13:03:05.673322', '2023-07-05 13:03:05.673322'), (298486374, 'MyString', '2023-07-05 13:03:05.673322', '2023-07-05 13:03:05.673322')[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.2ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.3ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:03:05.778596"], ["updated_at", "2023-07-05 13:03:05.778596"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 10ms (Views: 0.3ms | ActiveRecord: 0.5ms | Allocations: 5766)
+  [1m[36mOriginalString Load (0.1ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification_for_JSON_requests
+-----------------------------------------------------------------------------------
+Processing by EncoderController#encode as JSON
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:03:05.785863"], ["updated_at", "2023-07-05 13:03:05.785863"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 573)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------
+EncoderControllerTest: test_does_not_skip_authenticity_token_verification_for_non-JSON_requests
+-----------------------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:03:05.789087"], ["updated_at", "2023-07-05 13:03:05.789087"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 456)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 13:03:29.378232', '2023-07-05 13:03:29.378232'), (298486374, 'MyString', '2023-07-05 13:03:29.378232', '2023-07-05 13:03:29.378232')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.0ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.4ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:03:29.477940"], ["updated_at", "2023-07-05 13:03:29.477940"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 10ms (Views: 0.3ms | ActiveRecord: 0.6ms | Allocations: 5766)
+  [1m[36mOriginalString Load (0.2ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification_for_JSON_requests
+-----------------------------------------------------------------------------------
+Processing by EncoderController#encode as JSON
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:03:29.485579"], ["updated_at", "2023-07-05 13:03:29.485579"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 573)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL;ALTER TABLE "original_strings" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 13:06:57.260434', '2023-07-05 13:06:57.260434'), (298486374, 'MyString', '2023-07-05 13:06:57.260434', '2023-07-05 13:06:57.260434')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL;ALTER TABLE "original_strings" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.0ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------------------
+EncoderControllerTest: test_does_not_skip_authenticity_token_verification_for_non-JSON_requests
+-----------------------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:06:57.380278"], ["updated_at", "2023-07-05 13:06:57.380278"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 12ms (Views: 0.3ms | ActiveRecord: 0.5ms | Allocations: 5766)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:06:57.386289"], ["updated_at", "2023-07-05 13:06:57.386289"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 609)
+  [1m[36mOriginalString Load (0.2ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification_for_JSON_requests
+-----------------------------------------------------------------------------------
+Processing by EncoderController#encode as JSON
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:06:57.391220"], ["updated_at", "2023-07-05 13:06:57.391220"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 455)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (80.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "rot13_api_test"[0m
+  [1m[35m (129.6ms)[0m  [1m[35mCREATE DATABASE "rot13_api_test" ENCODING = 'utf8'[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "original_strings" CASCADE[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "original_strings" ("id" bigserial primary key, "value" text NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20230704195916)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2023-07-05 13:51:54.103635"], ["updated_at", "2023-07-05 13:51:54.103635"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "d84d31a5519e32a26598b44b579931eb05fa62bb"], ["created_at", "2023-07-05 13:51:54.109257"], ["updated_at", "2023-07-05 13:51:54.109257"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "original_strings" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 13:51:54.238316', '2023-07-05 13:51:54.238316'), (298486374, 'MyString', '2023-07-05 13:51:54.238316', '2023-07-05 13:51:54.238316')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "original_strings" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.9ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+------------------------------------------------------------------------
+OriginalStringTest: test_should_not_save_original_string_without_a_value
+------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------------------
+OriginalStringTest: test_should_not_save_original_string_with_value_exceeding_1000_characters
+---------------------------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------
+OriginalStringTest: test_should_save_original_string_with_valid_value
+---------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.4ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"], ["created_at", "2023-07-05 13:51:54.266683"], ["updated_at", "2023-07-05 13:51:54.266683"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+--------------------------------------------------------------------------------------------------------
+YourControllerTest: test_should_handle_internal_server_error_and_return_JSON_response_with_error_message
+--------------------------------------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------
+YourControllerTest: test_should_encode_string_and_return_JSON_response
+----------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+----------------------------------------------------------------------------------------------------
+YourControllerTest: test_should_handle_validation_error_and_return_JSON_response_with_error_messages
+----------------------------------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "original_strings" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[31mDELETE FROM "original_strings";
+INSERT INTO "original_strings" ("id", "value", "created_at", "updated_at") VALUES (980190962, 'MyString', '2023-07-05 13:52:23.047824', '2023-07-05 13:52:23.047824'), (298486374, 'MyString', '2023-07-05 13:52:23.047824', '2023-07-05 13:52:23.047824')[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "original_strings" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" ENABLE TRIGGER ALL[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.0ms)[0m  [1m[35mdo $$
+  declare r record;
+BEGIN
+FOR r IN (
+  SELECT FORMAT(
+    'UPDATE pg_constraint SET convalidated=false WHERE conname = ''%I'' AND connamespace::regnamespace = ''%I''::regnamespace; ALTER TABLE %I.%I VALIDATE CONSTRAINT %I;',
+    constraint_name,
+    table_schema,
+    table_schema,
+    table_name,
+    constraint_name
+  ) AS constraint_check
+  FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'
+)
+  LOOP
+    EXECUTE (r.constraint_check);
+  END LOOP;
+END;
+$$;
+[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------
+OriginalStringTest: test_should_save_original_string_with_valid_value
+---------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"], ["created_at", "2023-07-05 13:52:23.068136"], ["updated_at", "2023-07-05 13:52:23.068136"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+------------------------------------------------------------------------
+OriginalStringTest: test_should_not_save_original_string_without_a_value
+------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------------------
+OriginalStringTest: test_should_not_save_original_string_with_value_exceeding_1000_characters
+---------------------------------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+-----------------------------------------------------------------------------------
+EncoderControllerTest: test_skips_authenticity_token_verification_for_JSON_requests
+-----------------------------------------------------------------------------------
+Processing by EncoderController#encode as JSON
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:52:23.157895"], ["updated_at", "2023-07-05 13:52:23.157895"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.5ms | Allocations: 2006)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+---------------------------------------------------------------------------------
+EncoderControllerTest: test_creates_an_original_string_and_encodes_it_using_ROT13
+---------------------------------------------------------------------------------
+Processing by EncoderController#encode as HTML
+  Parameters: {"string"=>"Hello, World!"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOriginalString Create (0.2ms)[0m  [1m[32mINSERT INTO "original_strings" ("value", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["value", "Hello, World!"], ["created_at", "2023-07-05 13:52:23.162915"], ["updated_at", "2023-07-05 13:52:23.162915"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.4ms | Allocations: 619)
+  [1m[36mOriginalString Load (0.1ms)[0m  [1m[34mSELECT "original_strings".* FROM "original_strings" ORDER BY "original_strings"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
