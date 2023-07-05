@@ -1,38 +1,24 @@
+def multiply_recursive(num1, num2)
+  return 0 if num1 == 0 || num2 == 0
 
-def multiply(a, b)
-  return 0 if a == 0 || b == 0
-
-  negative_result = (a < 0) ^ (b < 0)
-
-  a = a.abs
-  b = b.abs
-
-  result = 0
-
-  while b > 0
-    result += a
-    b -= 1
+  if num1 < 0
+    num1 = -num1
+    num2 = -num2
   end
 
-  negative_result ? -result : result
+  return -multiply_recursive(num1, -num2) if num2 < 0
+
+  num1 + multiply_recursive(num1, num2 - 1)
 end
 
-def power(base, exponent)
+def power_recursive(base, exponent)
   return 1 if exponent == 0
 
-  negative_result = (base < 0) && (exponent % 2 != 0)
-
-  base = base.abs
-  exponent = exponent.abs
-
-  result = 1
-
-  while exponent > 0
-    result = multiply(result, base)
-    exponent -= 1
+  if exponent < 0
+    return 1.0 / power_recursive(base, -exponent)
   end
 
-  negative_result ? -result : result
+  multiply_recursive(base, power_recursive(base, exponent - 1))
 end
 
 loop do
@@ -49,14 +35,14 @@ loop do
     a = gets.chomp.to_i
     print "Enter the second number: "
     b = gets.chomp.to_i
-    result = multiply(a, b)
+    result = multiply_recursive(a, b)
     puts "Result: #{result}"
   when "2"
     print "Enter the base number: "
     base = gets.chomp.to_i
     print "Enter the exponent: "
     exponent = gets.chomp.to_i
-    result = power(base, exponent)
+    result = power_recursive(base, exponent)
     puts "Result: #{result}"
   when "3"
     puts "Exiting the program..."
